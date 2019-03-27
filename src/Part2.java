@@ -65,7 +65,7 @@ public class Part2 {
 		if (instances.isEmpty()) {
 			
 			for(Instance in: instances) {
-				if(in.getAtt(0)) {
+				if(in.getCategory() == 0) {
 					alive++;
 				}
 				else {
@@ -74,27 +74,27 @@ public class Part2 {
 			}
 			double probability = Math.min(alive, dead)/Math.max(alive, dead);
 			if(alive > dead) {
-				return new Node("ALIVE", probability, null, null);
+				return new LeafNode("ALIVE", probability);
 			}else {
-				return new Node("DEAD", probability, null, null);
+				return new LeafNode("DEAD", probability);
 			}
 		}
 		
 		if(alive == 0 || dead == 0) {
 			if(alive == 0) {
-				return new Node("ALIVE", 1, null, null);
+				return new LeafNode("ALIVE", 1);
 			}
 			if(dead == 0) {
-				return new Node("ALIVE", 1, null, null);
+				return new LeafNode("ALIVE", 1);
 			}
 		}
 		
 		if(attributes.isEmpty()) {
 			double probability = Math.min(alive, dead)/Math.max(alive, dead);
 			if(alive > dead) {
-				return new Node("ALIVE", probability, null, null);
+				return new LeafNode("ALIVE", probability);
 			}else {
-				return new Node("DEAD", probability, null, null);
+				return new LeafNode("DEAD", probability);
 			}
 		}
 
@@ -105,8 +105,8 @@ public class Part2 {
 			List<Instance> bestInstaFalse = null;
 			
 			
-			Node left;
-			Node right;
+			Node left = null;
+			Node right = null;
 			
 			
 			
@@ -138,10 +138,10 @@ public class Part2 {
 				
 				
 			}
-			
+			return new Node(left, right, attributes.get(bestAtt));
 		}
 		
-		return null;
+		
 
 	}
 	
