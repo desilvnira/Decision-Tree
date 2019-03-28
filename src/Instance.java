@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Instance {
 
     private int category;
-    private List<Boolean> vals;
+     List<Boolean> vals;
 
     public Instance(int cat, Scanner s){
       category = cat;
