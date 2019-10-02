@@ -20,5 +20,14 @@ public class Node {
 		this.className = className;
 		this.prob = prob;
 	}
+	
+	public void report(String indent){
+		System.out.format("%s%s = True:\n",
+		indent, bestAtt);
+		left.report(indent+"    ");
+		System.out.format("%s%s = False:\n",
+		indent, bestAtt);
+		right.report(indent+"    ");
+		}
 
 }

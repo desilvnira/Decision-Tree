@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Stack;
 
 public class Part2 {
 	static List<String> attributes = new ArrayList<String>();
@@ -78,6 +79,9 @@ public class Part2 {
 		int liveWrong = 0;
 		int dieWrong = 0;
 		
+		Node printRoot = root;
+		Part2.printTree(printRoot);
+		
 		
 		for (Instance in : instances2) {
 			Node tempRoot = root;
@@ -128,42 +132,54 @@ public class Part2 {
 				dead++;
 			}
 		}
-		System.out.println("Alive: " + alive + "Dead: " + dead + "attributes: " + attributes.size());
+		//System.out.println("Alive: " + alive + "Dead: " + dead + "attributes: " + attributes.size());
 
 		if (instances.isEmpty()) {
-			System.out.println("here");
+			//System.out.println("here");
 			double probability = 0;
 			if (Math.min(alive, dead) == 0) {
 
 			} else {
-				probability = Math.min(alive, dead) / Math.max(alive, dead);
+				probability = Math.max(alive, dead) / (alive+dead);
 			}
 			if (alive > dead) {
 				// System.out.println("here");
-				return new LeafNode("ALIVE", probability);
+				LeafNode lf = new LeafNode("ALIVE", probability);
+				//lf.report("    ");
+				return lf;
 			} else {
 				// System.out.println("here");
-				return new LeafNode("DEAD", probability);
+				LeafNode lf = new LeafNode("DEAD", probability);
+				//lf.report("    ");
+				return lf;
 			}
 		}
 
 		if (alive == 0 || dead == 0) {
 			if (alive == 0) {
-				System.out.println("here");
-				return new LeafNode("ALIVE", 1);
+				//System.out.println("here");
+				LeafNode lf = new LeafNode("ALIVE", 1);
+				//lf.report("    ");
+				return lf;
 			}
 			if (dead == 0) {
 				//System.out.println("here");
-				return new LeafNode("DEAD", 1);
+				LeafNode lf = new LeafNode("DEAD", 1);
+				//lf.report("    ");
+				return lf;
 			}
 		}
 
 		if (attributes.isEmpty()) {
-			double probability = Math.min(alive, dead) / Math.max(alive, dead);
+			double probability = Math.min(alive, dead) / (alive+dead);
 			if (alive > dead) {
-				return new LeafNode("ALIVE", probability);
+				LeafNode lf = new LeafNode("ALIVE", probability);
+				//lf.report("    ");
+				return lf;
 			} else {
-				return new LeafNode("DEAD", probability);
+				LeafNode lf = new LeafNode("DEAD", probability);
+				//lf.report("    ");
+				return lf;
 			}
 		}
 
@@ -172,7 +188,7 @@ public class Part2 {
 			int bestAtt = 0;
 			List<Instance> bestInstaTrue = null;
 			List<Instance> bestInstaFalse = null;
-			System.out.println("here");
+			//System.out.println("here");
 
 			Node left = null;
 			Node right = null;
@@ -205,8 +221,9 @@ public class Part2 {
 			left = buildTree(bestInstaTrue, newAttributes);
 			right = buildTree(bestInstaFalse, newAttributes);
 			
-						
-			return new Node(left, right, Part2.getBrandNewAtt().get(bestAtt));
+			Node nd = new Node(left, right, Part2.getBrandNewAtt().get(bestAtt));
+			//nd.report("    ");
+			return nd;
 		}
 
 	}
@@ -283,6 +300,25 @@ public class Part2 {
 		s.add("HISTOLOGY");
 		
 		return s;
+	}
+	
+	public static void printTree(Node root) {
+		
+		root.report("    ");
+		/*Stack<Node> nodeStack = new Stack<Node>();
+		nodeStack.push(root);
+
+		while (!nodeStack.isEmpty()) {
+			Node node = nodeStack.pop();
+			node.report("    ");
+			if (node.left != null) {
+				// node.left.report(" ");
+				nodeStack.push(node.left);
+			} else if (node.right != null) {
+				// node.right.report(" ");
+				nodeStack.push(node.right);
+			}
+		}*/
 	}
 
 }
